@@ -29,7 +29,7 @@ func Get(client *http.Client, importPath string, etag string) (*Package, error) 
 		return nil, err
 	}
 
-	pdoc, err := newPackage(dir)
+	pdoc, err := NewPackage(dir)
 	if err != nil {
 		return pdoc, err
 	}

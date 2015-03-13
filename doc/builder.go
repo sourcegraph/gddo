@@ -481,7 +481,7 @@ func SetDefaultGOOS(goos string) {
 	goEnvs[0], goEnvs[i] = goEnvs[i], goEnvs[0]
 }
 
-func newPackage(dir *gosrc.Directory) (*Package, error) {
+func NewPackage(dir *gosrc.Directory) (*Package, error) {
 
 	pkg := &Package{
 		Updated:        time.Now().UTC(),
