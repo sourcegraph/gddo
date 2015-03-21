@@ -105,6 +105,15 @@ func (pdoc *tdoc) SourceLink(pos doc.Pos, text string, textOnlyOK bool) htemp.HT
 		htemp.HTMLEscapeString(text)))
 }
 
+func (pdoc *tdoc) RefsLink(text, title string, defParts ...string) htemp.HTML {
+	if *sourcegraphURL == "" {
+		return ""
+	}
+	q := url.Values{"repo": []string{pdoc.ProjectRoot}, "pkg": []string{pdoc.ImportPath}, "def": []string{strings.Join(defParts, "/")}}
+	u := *sourcegraphURL + "/-/godoc/refs?" + q.Encode()
+	return htemp.HTML(fmt.Sprintf(`<a class="refs" title="%s" href="%s">%s</a>`, title, htemp.HTMLEscapeString(u), text))
+}
+
 func (pdoc *tdoc) PageName() string {
 	if pdoc.Name != "" && !pdoc.IsCmd {
 		return pdoc.Name
