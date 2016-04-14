@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /go/bin/gddo-server -trust_proxy_headers -sourcegraph_url=https://staging2.sourcegraph.com 2>&1
+exec /go/bin/gddo-server -robot=999999999 -trust_proxy_headers -sourcegraph_url=https://sourcegraph.com 2>&1
