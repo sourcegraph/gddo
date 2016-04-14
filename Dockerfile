@@ -34,8 +34,8 @@ RUN go get github.com/golang/gddo/gddo-server
 # Exposed ports and volumes.
 # /ssl should contain SSL certs.
 # /data should contain the Redis database, "dump.rdb".
-EXPOSE 80 443
-VOLUME ["/ssl", "/data"]
+EXPOSE 80
+VOLUME ["/data"]
 
 # How to start it all.
 CMD svscan /services
