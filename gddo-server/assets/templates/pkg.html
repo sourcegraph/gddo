@@ -132,7 +132,7 @@
           {{end}}
 
           {{range .Methods}}
-            <h4 id="{{$t.Name}}.{{.Name}}" data-kind="m">func ({{.Recv}}) {{$.pdoc.SourceLink .Pos .Name true}} <a class="permalink" href="#{{$t.Name}}.{{.Name}}">&para;</a> {{$.pdoc.RefsLink "Callers" "List Method Callers" $t.Name .Name}}</h4>
+            <h4 id="{{$t.Name}}.{{.Name}}" data-kind="m">func ({{.Recv}}) {{$.pdoc.SourceLink .Pos .Name true}} <a class="permalink" href="#{{$t.Name}}.{{.Name}}">&para;</a> {{$.pdoc.RefsLink "Callers" "List Method Callers" .Orig .Recv .Name}}</h4>
             <div class="funcdecl decl">{{$.pdoc.SourceLink .Pos "\u2756" false}}{{code .Decl nil}}</div>{{.Doc|comment}}
             {{template "Examples" .|$.pdoc.ObjExamples}}
           {{end}}
