@@ -107,7 +107,7 @@ func (pdoc *tdoc) SourceLink(pos doc.Pos, text string, textOnlyOK bool) htemp.HT
 
 // UsesLink generates a link to uses of a symbol definition.
 func (pdoc *tdoc) UsesLink(title string, defParts ...string) htemp.HTML {
-	if *sourcegraphURL == "" {
+	if sourcegraphURL.URL == (url.URL{}) {
 		return ""
 	}
 
@@ -136,8 +136,10 @@ func (pdoc *tdoc) UsesLink(title string, defParts ...string) htemp.HTML {
 		def = typeName + "/" + methodName
 	}
 
-	q := url.Values{"repo": {pdoc.ProjectRoot}, "pkg": {pdoc.ImportPath}, "def": {def}}
-	u := *sourcegraphURL + "/-/godoc/refs?" + q.Encode()
+	u := sourcegraphURL.ResolveReference(&url.URL{
+		Path:     "/-/godoc/refs",
+		RawQuery: url.Values{"repo": {pdoc.ProjectRoot}, "pkg": {pdoc.ImportPath}, "def": {def}}.Encode(),
+	}).String()
 	return htemp.HTML(fmt.Sprintf(`<a class="uses" title="%s" href="%s">Uses</a>`, htemp.HTMLEscapeString(title), htemp.HTMLEscapeString(u)))
 }
 
