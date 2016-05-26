@@ -106,6 +106,7 @@ func (pdoc *tdoc) SourceLink(pos doc.Pos, text string, textOnlyOK bool) htemp.HT
 }
 
 // UsesLink generates a link to uses of a symbol definition.
+// title is used as the tooltip. defParts are parts of the symbol definition name.
 func (pdoc *tdoc) UsesLink(title string, defParts ...string) htemp.HTML {
 	if *sourcegraphURL == "" {
 		return ""
@@ -134,9 +135,15 @@ func (pdoc *tdoc) UsesLink(title string, defParts ...string) htemp.HTML {
 		typeName := strings.TrimPrefix(orig, "*")
 
 		def = typeName + "/" + methodName
+	default:
+		panic(fmt.Errorf("internal error: UsesLink provided %v len(defParts), expected 1 or 3", len(defParts)))
 	}
 
-	q := url.Values{"repo": {pdoc.ProjectRoot}, "pkg": {pdoc.ImportPath}, "def": {def}}
+	q := url.Values{
+		"repo": {pdoc.ProjectRoot},
+		"pkg":  {pdoc.ImportPath},
+		"def":  {def},
+	}
 	u := *sourcegraphURL + "/-/godoc/refs?" + q.Encode()
 	return htemp.HTML(fmt.Sprintf(`<a class="uses" title="%s" href="%s">Uses</a>`, htemp.HTMLEscapeString(title), htemp.HTMLEscapeString(u)))
 }
